@@ -94,3 +94,4 @@ Ver [`docs/AI_USE_DECLARATION.md`](docs/AI_USE_DECLARATION.md).
 ## Aviso
 
 Los datos son sintéticos y didácticos. El sistema no autoriza decisiones automáticas sobre personas.
+
