@@ -19,6 +19,15 @@ Se recomienda **continuar solo hacia la fase de medición (LAB12)**, sin despleg
 
 **Interpretación.** El orden del registro no es una verdad matemática: R03 y R02 empatan en 12. R03 queda por encima porque su impacto es mayor, ya que el uso para intervenir o negar servicios afecta directamente a personas. R01 es el riesgo dominante porque condiciona todo lo demás: si la etiqueta está sesgada, incluso un modelo "equitativo" según las métricas reproduciría la desigualdad histórica. Los riesgos con prioridad 6 (R05, R06, R07, R09) se revisaron uno por uno y no se aceptan como bajos solo por su puntuación. R05 (zona como proxy) se mide junto con R01 en el LAB12.
 
+## Regla de interpretación
+
+| Nivel | Respuesta |
+|---|---|
+| **Observación** ¿Qué riesgo o recomendación produjo el sistema? | El registro puntúa 9 riesgos. Los prioritarios son R01, sesgo de la etiqueta contra G2 (16); R03, sesgo de automatización y usos prohibidos (12); y R02, `age_band` usada como predictor (12). Todavía no hay métricas del modelo: el sistema no se ha entrenado ni desplegado. |
+| **Evidencia** ¿Qué datos, prueba o artefacto lo respaldan? | `reports/lab11/risk_register_scored.csv`, `reports/lab11/rmf_summary.json` (GOVERN y MAP cubiertos, MEASURE pendiente) y el perfil del dataset (`scripts/describe_dataset.py`: tasa positiva de 0.64 en G2 y 0.50 en G1). Para R02, `configs/governance.yml` y `src/inf8239_u04/model.py`. Las pruebas `tests/test_impact.py` y `tests/test_privacy.py` pasan. |
+| **Interpretación** ¿Qué significa y qué no permite concluir? | El sistema tiene un propósito acotado, un responsable, una alternativa no predictiva, apelación y condición de retiro. Esto **no** permite concluir que el modelo sea seguro ni equitativo: la puntuación ordena la atención, pero no mide el daño. La diferencia en la etiqueta puede ser una necesidad real o un sesgo de registro, y estos datos no permiten distinguirlos. Que exista un archivo de control no prueba que el control sea eficaz. |
+| **Decisión** ¿Desplegar, limitar, revisar, detener o retirar? ¿Quién responde? | **REVIEW**: avanzar solo a la medición del LAB12, sin desplegar. Aprueba el Institutional Owner y ejecuta el Product Owner. Hay que documentar las métricas por grupo, la comparación con y sin `age_band` y la línea base no predictiva. Se retira el sistema si se cumple la condición de retiro. |
+
 ## Estado NIST AI RMF
 
 - **GOVERN:** hay propietario, RACI y usos prohibidos definidos. ✅

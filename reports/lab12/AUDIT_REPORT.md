@@ -85,6 +85,15 @@ Siguiente paso: revisar con el equipo de campo una muestra de los falsos negativ
 - **Condiciones para pasar a GO:** IC de las brechas por debajo de 0.16 con más datos, recall de G1 de al menos 0.68 y revisión de la etiqueta (R01).
 - **Límite:** esta auditoría no autoriza decisiones automáticas sobre personas.
 
+## 7. Regla de interpretación
+
+| Nivel | Respuesta |
+|---|---|
+| **Observación** ¿Qué métrica, brecha o recomendación produjo el sistema? | La regresión logística tiene recall global de 0.717, pero de 0.653 en G1 frente a 0.791 en G2: brecha de 0.138. La brecha de FPR es 0.125 (G2 0.375, G1 0.250). El árbol tiene brechas de 0.181 y 0.168. La logística sin `age_band` iguala el recall con 3.3 KB. La línea base no predictiva tiene recall de 0.435. |
+| **Evidencia** ¿Qué datos, prueba o comparación lo respaldan? | `reports/lab12/{logistic,tree}/global_metrics.json` y `fairness_by_group.csv`; `model_comparison.csv`, con IC 95 % bootstrap (1000 remuestreos, semilla 42); `intersectional_support.csv` (n ≥ 30) y `comparison_meta.json`. La prueba temporal tiene 160 casos (G1 = 101, G2 = 59). `tests/test_fairness.py` y `tests/test_model.py` pasan, y `validate_lab12_decision.py` da `documented`. |
+| **Interpretación** ¿Qué significa y qué no permite concluir? | El promedio oculta una falla localizada: el modelo pierde más casos reales de G1, sobre todo en 45-59. G2 recibe más falsos positivos. El árbol añade complejidad sin beneficio. **No** permite concluir que haya discriminación causal (etiqueta posiblemente sesgada, proxies, un solo corte temporal), ni que se cumplan los umbrales de forma estable (los IC superan 0.16). Tampoco permite sacar conclusiones sobre 7 de los 8 subgrupos interseccionales, que tienen menos de 30 casos. |
+| **Decisión** ¿Desplegar, limitar, revisar, detener o retirar? ¿Quién responde? | **REVIEW**: no desplegar. Se descarta el árbol y la candidata es la logística sin `age_band`. Responde el Data Scientist (auditoría) y aprueba el Product Owner. Hay que documentar la revisión de los falsos negativos de G1 con el equipo de campo, la auditoría del origen de la etiqueta (R01) y una nueva evaluación con más datos. La línea base no predictiva queda como respaldo si se activa la condición de retiro. |
+
 ## Estado NIST AI RMF (actualización respecto del LAB11)
 
 - **MEASURE:** ✅ métricas globales, por grupo e interseccionales con conteos, IC bootstrap y costo computacional.
