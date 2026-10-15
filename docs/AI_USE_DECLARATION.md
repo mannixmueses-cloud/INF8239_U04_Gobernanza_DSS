@@ -51,5 +51,26 @@ Verificaciones humanas del LAB12:
 - [x] Confirmé que estoy de acuerdo con la decisión REVIEW o la cambié con mi propia justificación.
 - [x] Ejecuté `uv run python scripts/lab11_impact.py` y `uv run pytest -q` y obtuve resultados en verde.
 
+## Ejercicio 07 · Síntesis PDF
+
+Prompts textuales usados con Claude:
+- «el LAB11 y LAB12, cumplen con este mandato» (junto con el mandato de la Unidad 04);
+- «agrega la sección Observación / Evidencia / Interpretación / Decisión al DECISION_RECORD del LAB11 y al AUDIT_REPORT del LAB12»;
+- «hacer lo que pide para el Ejercicio 07» (junto con el mandato y la rúbrica del ejercicio).
+
+Fragmentos afectados:
+- `docs/ejercicio07/INF8239_U04_E07_Mueses.html` (fuente editable) y el PDF generado a partir de ella, que se entrega en el aula virtual y no se versiona: estructura y redacción hechas por la IA. Todas las cifras se copiaron de los archivos de `reports/lab11/` y `reports/lab12/`.
+- La sección "Regla de interpretación" de `reports/lab11/DECISION_RECORD.md` y `reports/lab12/AUDIT_REPORT.md`.
+- La tabla de marco normativo (obligación legal, marco voluntario y recomendación ética): propuesta de la IA que el estudiante debe verificar en las fuentes oficiales.
+
+Correcciones:
+- La primera versión del PDF tenía saltos de página forzados que dejaban una página casi vacía. Se quitaron y el documento pasó de 8 a 6 páginas.
+
+Verificaciones humanas del Ejercicio 07:
+<!-- El estudiante debe completar o confirmar esta sección antes de entregar. -->
+- [ ] Verifiqué en las fuentes oficiales los artículos 39, 44 y 70 de la Constitución, la Ley 172-13, la Ley 200-04, la ENIA y el AI Act citados en la sección 4.
+- [ ] Revisé que las cifras del PDF coinciden con `reports/lab12/model_comparison.csv` y `reports/lab12/logistic/fairness_by_group.csv`.
+- [ ] Estoy de acuerdo con la decisión final MODIFICAR y LIMITAR, o la cambié con mi propia justificación.
+
 ## Responsabilidad asumida
 La responsabilidad final sobre el contenido entregado, la verificación de resultados y la decisión ética recae completamente en el estudiante.

@@ -13,7 +13,10 @@ Proyecto base acumulativo para LAB11–13. El estudiante completa archivos peque
 |---|---|---|
 | U04.LAB11 | Evaluación de impacto ético | ✅ Completo, decisión **REVIEW** |
 | U04.LAB12 | Auditoría de equidad con Fairlearn | ✅ Completo, decisión **REVIEW** |
+| **Ejercicio 07** | Evaluación de impacto y auditoría de equidad (integra LAB11 y LAB12) | ✅ PDF entregado en el aula virtual, decisión **MODIFICAR y LIMITAR** |
 | U04.LAB13 | Gobernanza y DSS responsable con Streamlit | ⏳ Pendiente |
+
+**Ejercicio 07:** el PDF de síntesis se entrega en el aula virtual y **no se versiona** en este repositorio (`*.pdf` está en `.gitignore`). Su fuente editable está en [`docs/ejercicio07/INF8239_U04_E07_Mueses.html`](docs/ejercicio07/INF8239_U04_E07_Mueses.html). Para regenerar el PDF, abra el HTML en el navegador e imprímalo como PDF (tamaño Carta, sin encabezados).
 
 ## Inicio
 

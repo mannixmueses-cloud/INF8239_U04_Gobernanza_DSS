@@ -5,3 +5,6 @@ __pycache__/
 models/*.joblib
 reports/**/*.png
 .streamlit/secrets.toml
+
+# El PDF del Ejercicio 07 se entrega en el aula virtual, no se versiona
+*.pdf

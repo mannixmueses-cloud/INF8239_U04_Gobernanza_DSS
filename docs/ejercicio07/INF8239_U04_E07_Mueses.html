@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>INF8239 U04 Ejercicio 07 - Mueses</title>
+<style>
+  @page { size: Letter; margin: 18mm 16mm 18mm 16mm; }
+  body { font-family: "Segoe UI", Arial, sans-serif; font-size: 10pt; line-height: 1.4; color: #1a1a1a; }
+  h1 { font-size: 17pt; margin: 0 0 4px; color: #12355b; }
+  h2 { font-size: 12.5pt; color: #12355b; border-bottom: 1.5px solid #12355b; padding-bottom: 2px; margin: 16px 0 6px; page-break-after: avoid; }
+  h3 { font-size: 10.5pt; margin: 10px 0 4px; page-break-after: avoid; }
+  p { margin: 4px 0 6px; text-align: justify; }
+  table { border-collapse: collapse; width: 100%; margin: 6px 0 8px; font-size: 8.8pt; page-break-inside: avoid; }
+  th, td { border: 1px solid #b8c2cc; padding: 3px 5px; vertical-align: top; text-align: left; }
+  th { background: #e8eef5; }
+  td.n { text-align: right; white-space: nowrap; }
+  code { font-family: Consolas, monospace; font-size: 8.6pt; background: #f2f4f7; padding: 0 2px; }
+  ul { margin: 3px 0 6px 18px; padding: 0; } li { margin: 1px 0; }
+  .meta { font-size: 9.2pt; color: #333; margin-bottom: 6px; }
+  .meta td { border: none; padding: 1px 8px 1px 0; }
+  .box { border: 1px solid #12355b; background: #f4f7fb; padding: 6px 9px; margin: 8px 0; page-break-inside: avoid; }
+  .warn { border-left: 4px solid #b26b00; background: #fff7e6; padding: 5px 8px; margin: 8px 0; font-size: 9pt; }
+  .ok { color: #1b6e2b; font-weight: 600; } .bad { color: #a8201a; font-weight: 600; }
+  .small { font-size: 8.6pt; color: #444; text-align: left; }
+  .pb { page-break-before: always; }
+</style>
+</head>
+<body>
+
+<h1>Ejercicio 07 · Evaluación de impacto y auditoría de equidad</h1>
+<table class="meta">
+  <tr><td><b>Asignatura:</b> INF-8239 Ciencia de Datos II</td><td><b>Unidad:</b> 04 · Ética y roles en Ciencia de Datos</td></tr>
+  <tr><td colspan="2"><b>Estudiante:</b> Manicaotex Mueses Ruiz</td></tr>
+  <tr><td colspan="2"><b>Repositorio:</b> <a href="https://github.com/mannixmueses-cloud/INF8239_U04_Gobernanza_DSS">https://github.com/mannixmueses-cloud/INF8239_U04_Gobernanza_DSS</a> (rama <code>main</code>)</td></tr>
+  <tr><td colspan="2"><b>Insumos integrados:</b> U04.LAB11 (evaluación de impacto ético) y U04.LAB12 (auditoría de equidad con Fairlearn)</td></tr>
+</table>
+
+<div class="box">
+<b>Síntesis.</b> El sistema <i>Territorial Review DSS – Synthetic</i> ordena una cola de casos territoriales sintéticos para revisión humana. La evaluación de impacto identificó 9 riesgos; el principal es que la etiqueta histórica esté sesgada contra el grupo G2 (tasa positiva de 0.64 frente a 0.50 en G1). La auditoría muestra que la regresión logística cumple los umbrales en sus valores puntuales: recall de 0.717, brecha de recall de 0.138 y brecha de FPR de 0.125. Sin embargo, pierde más casos reales de G1 (recall de 0.653) y sus intervalos de confianza superan la tolerancia de 0.16. <b>Decisión final: MODIFICAR y LIMITAR. No se despliega en operación</b>: se adopta la variante sin <code>age_band</code>, el uso se limita a ordenar la cola con revisión humana obligatoria y el paso a producción queda sujeto a condiciones verificables.
+</div>
+
+<div class="warn"><b>Alcance.</b> Los datos son sintéticos y didácticos: no representan personas, territorios ni estadísticas reales de la República Dominicana. Las obligaciones legales de la sección 4 se analizan como si el sistema operara con datos reales. Todas las cifras de este documento se pueden reproducir con los comandos del Anexo A.</div>
+
+<h2>1. Finalidad, interesados y proporcionalidad</h2>
+<p class="small">Evidencia: <code>student_inputs/lab11_impact.yml</code>, <code>student_inputs/stakeholders.csv</code> y <code>reports/lab11/stakeholders.csv</code>.</p>
+<table>
+  <tr><th style="width:23%">Elemento</th><th>Definición adoptada</th></tr>
+  <tr><td>Finalidad</td><td>Ordenar la cola para que se revisen primero los casos con mayor señal de riesgo de infraestructura (incidentes previos, puntaje de infraestructura y exposición). No clasifica personas ni zonas como "riesgosas".</td></tr>
+  <tr><td>Decisión asistida</td><td>Qué caso revisa primero el analista en la ventana semanal. Las decisiones de inspeccionar, intervenir o descartar siguen siendo humanas y se registran con su justificación.</td></tr>
+  <tr><td>Usuarios / afectados</td><td>Los usuarios son los analistas territoriales y su supervisor. Los afectados son los residentes de las cuatro zonas sintéticas, con atención especial al grupo G2 y a la franja de edad 60+.</td></tr>
+  <tr><td>Propietario</td><td>El Institutional Owner aprueba, suspende o retira el sistema. El Product Owner responde por la operación diaria (<code>student_inputs/raci.csv</code>).</td></tr>
+  <tr><td>Uso prohibido</td><td>Intervención automática, elegibilidad para ayudas, declaración de emergencia, perfilamiento, uso del grupo o de la edad para priorizar e inferencias sobre la población real.</td></tr>
+  <tr><td>Apelación</td><td>Revisión por un supervisor independiente que no ve la puntuación del modelo, con respuesta en 10 días hábiles y un log de apelaciones.</td></tr>
+  <tr><td>Condición de retiro</td><td>Se suspende el sistema si el recall baja de 0.68, si alguna brecha de recall o FPR supera 0.16, si más del 20 % de las apelaciones se revocan en un trimestre, si se detecta un uso fuera de alcance o si aparecen identificadores directos.</td></tr>
+</table>
+
+<h3>Interesados</h3>
+<table>
+  <tr><th>Actor</th><th>Beneficio</th><th>Daño potencial</th><th>Poder</th><th>Participación</th></tr>
+  <tr><td>Persona afectada</td><td>Revisión más oportuna de su caso</td><td>Sobre o subpriorización por sesgo; opacidad</td><td>Bajo</td><td>Aviso de uso, apelación y consulta trimestral a representantes</td></tr>
+  <tr><td>Operador</td><td>Cola ordenada</td><td>Sesgo de automatización; carga de responsabilidad</td><td>Medio</td><td>Capacitación, justificación obligatoria y canal para reportar errores</td></tr>
+  <tr><td>Propietario institucional</td><td>Eficiencia y trazabilidad</td><td>Daño reputacional o legal por discriminación o mal uso</td><td>Alto</td><td>Firma la decisión y preside la revisión mensual</td></tr>
+  <tr><td>Equipo de datos</td><td>Criterios de aceptación medibles</td><td>Presión para desplegar sin evidencia</td><td>Medio</td><td>Mantiene el registro de riesgos y la auditoría; puede escalar un STOP</td></tr>
+</table>
+
+<h3>Necesidad y proporcionalidad</h3>
+<p>Para medir la necesidad se definió una <b>alternativa no predictiva</b>: una cola cronológica con una lista de verificación pública (<code>infrastructure_score &lt; 0.30</code> o <code>previous_incidents ≥ 5</code>). En la misma prueba temporal, esa regla solo detecta el <b>43.5 %</b> de los casos reales, frente al <b>71.7 %</b> del modelo. Por tanto, el modelo aporta una mejora sustancial y su uso puede ser <b>necesario</b>. Es <b>proporcional</b> solo si se cumplen tres condiciones: (a) que se limite a ordenar la cola, sin decidir sobre personas; (b) que use el mínimo de variables, por lo que se elimina <code>age_band</code>; y (c) que mantenga la revisión humana, la apelación y la condición de retiro. La regla no predictiva queda como respaldo seguro.</p>
+
+<h2>2. Registro de riesgos y NIST AI RMF</h2>
+<p class="small">Evidencia: <code>student_inputs/risk_register.csv</code>, <code>reports/lab11/risk_register_scored.csv</code>, <code>reports/lab11/rmf_summary.json</code> y <code>reports/lab11/DECISION_RECORD.md</code>. La prioridad es probabilidad × impacto, en escala de 1 a 4.</p>
+<table>
+  <tr><th>ID</th><th>Escenario</th><th>P×I</th><th>Control</th><th>Responsable</th><th>Residual</th></tr>
+  <tr><td>R01</td><td>La etiqueta histórica está sesgada contra G2 (0.64 frente a 0.50) y el modelo la amplifica</td><td class="n">4×4=16</td><td>Auditar el origen de la etiqueta, comparar con la línea base y bloquear el despliegue si se superan las brechas</td><td>Data Scientist</td><td>Alto</td></tr>
+  <tr><td>R03</td><td>Sesgo de automatización o uso para intervenir o negar servicios</td><td class="n">3×4=12</td><td>Mostrar solo el orden; justificación humana obligatoria; aviso de usos prohibidos; auditoría mensual</td><td>Product Owner</td><td>Medio</td></tr>
+  <tr><td>R02</td><td><code>age_band</code> está declarada sensible pero se usa como predictor</td><td class="n">4×3=12</td><td>Variante sin <code>age_band</code> y análisis interseccional</td><td>Data Scientist</td><td>Medio</td></tr>
+  <tr><td>R04</td><td>Falsos negativos desiguales entre grupos</td><td class="n">2×4=8</td><td>Umbrales de recall y de brecha; revisión manual del final de la cola</td><td>Data Scientist</td><td>Medio</td></tr>
+  <tr><td>R05</td><td><code>zone</code> actúa como proxy del grupo protegido</td><td class="n">2×3=6</td><td>Métricas por zona; consulta comunitaria</td><td>Data Scientist</td><td>Medio</td></tr>
+  <tr><td>R06</td><td>Deriva temporal</td><td class="n">3×2=6</td><td>Validación temporal y monitoreo mensual</td><td>ML Engineer</td><td>Bajo</td></tr>
+  <tr><td>R07</td><td>Imposibilidad de apelar</td><td class="n">2×3=6</td><td>Aviso y apelación con revisor independiente</td><td>Institutional Owner</td><td>Bajo</td></tr>
+  <tr><td>R08</td><td>Reidentificación o fuga de identificadores</td><td class="n">1×4=4</td><td>Contrato de esquema y minimización (<code>test_privacy.py</code>)</td><td>Data Engineer</td><td>Bajo</td></tr>
+  <tr><td>R09</td><td>Presentar los resultados sintéticos como estadísticas reales</td><td class="n">2×3=6</td><td>Advertencia en la app y Dataset Card</td><td>Product Owner</td><td>Bajo</td></tr>
+</table>
+<p>La puntuación ordena la atención, pero no convierte el daño en una verdad matemática. R03 queda por encima de R02 aunque empatan, porque su impacto sobre las personas es mayor. Los riesgos con prioridad 6 se revisaron uno por uno y no se dan por bajos solo por su puntuación.</p>
+<table>
+  <tr><th style="width:14%">Función RMF</th><th>Evidencia en el repositorio</th><th style="width:13%">Estado</th></tr>
+  <tr><td>GOVERN</td><td>Propietario, RACI (<code>raci.csv</code>), usos prohibidos y umbrales (<code>configs/governance.yml</code>)</td><td class="ok">Cubierto</td></tr>
+  <tr><td>MAP</td><td>Finalidad, interesados y 9 riesgos con responsable y evidencia</td><td class="ok">Cubierto</td></tr>
+  <tr><td>MEASURE</td><td>Métricas globales, por grupo e interseccionales con conteos, IC bootstrap y costo (LAB12)</td><td class="ok">Cubierto</td></tr>
+  <tr><td>MANAGE</td><td>Condición de retiro, apelación y decisión con condiciones. El monitoreo, el runbook y el incidente corresponden al LAB13</td><td>Parcial</td></tr>
+</table>
+
+<h2>3. Auditoría global, por grupo e interseccional</h2>
+<p class="small">Evidencia: <code>reports/lab12/{logistic,tree}/</code>, <code>model_comparison.csv</code>, <code>intersectional_support.csv</code>, <code>comparison_meta.json</code> y <code>AUDIT_REPORT.md</code>. La partición es temporal: entrenamiento hasta el 2026-09-24 y prueba desde el 2026-09-25, con 160 casos (G1 = 101, G2 = 59). El atributo <code>protected_group</code> no entra al modelo; se usa solo para auditar.</p>
+
+<h3>3.1 Global frente a por grupo (regresión logística)</h3>
+<table>
+  <tr><th>Métrica</th><th>Global</th><th>G1 (n=101)</th><th>G2 (n=59)</th><th>Brecha</th></tr>
+  <tr><td>Accuracy</td><td class="n">0.719</td><td class="n">0.703</td><td class="n">0.746</td><td class="n">0.043</td></tr>
+  <tr><td>Recall (TPR)</td><td class="n">0.717</td><td class="n bad">0.653</td><td class="n">0.791</td><td class="n">0.138</td></tr>
+  <tr><td>FPR</td><td class="n">0.279</td><td class="n">0.250</td><td class="n bad">0.375</td><td class="n">0.125</td></tr>
+  <tr><td>Tasa de selección</td><td class="n">0.531</td><td class="n">0.446</td><td class="n">0.678</td><td class="n">0.232</td></tr>
+  <tr><td>Precisión</td><td class="n">0.776</td><td class="n">0.711</td><td class="n">0.850</td><td class="n">0.139</td></tr>
+</table>
+<p><b>El promedio oculta una falla localizada.</b> El recall global supera el mínimo de 0.68, pero el de G1 queda por debajo: el modelo deja sin detectar más casos reales de G1. G2, en cambio, recibe más alertas incorrectas. La diferencia en la tasa de selección refleja en parte la diferencia en la etiqueta (R01), por eso no se usa como métrica principal. La métrica principal es la <b>brecha de recall</b>, porque el daño prioritario es no revisar a tiempo un caso con riesgo real. La brecha de FPR se vigila como métrica secundaria.</p>
+
+<h3>3.2 Interseccional (grupo × edad, mínimo de 30 casos)</h3>
+<table>
+  <tr><th>Subgrupo</th><th>n</th><th>Recall (logística)</th><th>FPR (logística)</th><th>Interpretación</th></tr>
+  <tr><td>G1 | 45-59</td><td class="n">35</td><td class="n">0.588</td><td class="n">0.389</td><td class="ok">Interpretable: es donde más se concentra la pérdida de casos de G1</td></tr>
+  <tr><td>G1 | 18-29, 30-44, 60+</td><td class="n">18 / 24 / 24</td><td colspan="2">Se reportan en el CSV</td><td>Soporte insuficiente: no se interpretan</td></tr>
+  <tr><td>G2 | 18-29, 30-44, 45-59, 60+</td><td class="n">11 / 14 / 8 / 26</td><td colspan="2">Se reportan en el CSV</td><td>Soporte insuficiente: no se interpretan</td></tr>
+</table>
+<p>Solo 1 de los 8 subgrupos alcanza el mínimo. Valores extremos como el FPR de 1.0 del árbol en G2 | 30-44 (n = 14) son inestables. No se ocultan, porque indican dónde hacen falta más datos.</p>
+
+<h3>3.3 Incertidumbre</h3>
+<p>Los IC 95 % bootstrap (1000 remuestreos, semilla 42) de la logística son [0.011, 0.314] para la brecha de recall y [0.005, 0.398] para la de FPR. Los dos superan la tolerancia de 0.16, así que <b>el cumplimiento puntual de los umbrales no se puede afirmar con confianza</b>.</p>
+
+<h2>4. Marco normativo: obligación legal, marco voluntario y recomendación ética</h2>
+<table>
+  <tr><th style="width:17%">Tipo</th><th style="width:33%">Instrumento</th><th>Qué implica para este sistema</th></tr>
+  <tr><td rowspan="3"><b>Obligación legal</b><br><span class="small">(vinculante en la RD si se usaran datos reales)</span></td><td>Constitución de la República Dominicana, art. 39 (igualdad), art. 44 (intimidad y honor) y art. 70 (hábeas data)</td><td>No discriminar por condición social o personal; las personas pueden conocer, rectificar y suprimir sus datos. Esto respalda la apelación y la prohibición de perfilamiento.</td></tr>
+  <tr><td>Ley núm. 172-13 sobre protección integral de los datos personales</td><td>Consentimiento o base legal, finalidad, calidad y seguridad de los datos, y derechos de acceso, rectificación y cancelación. Se refleja en la minimización y en el rechazo de identificadores directos (<code>validate_schema</code>, <code>test_privacy.py</code>).</td></tr>
+  <tr><td>Ley núm. 200-04 General de Libre Acceso a la Información Pública</td><td>Si el sistema lo opera una institución pública, la ciudadanía puede solicitar información sobre su funcionamiento. Por eso conviene publicar el propósito, los límites y la Model Card.</td></tr>
+  <tr><td rowspan="3"><b>Marco voluntario</b><br><span class="small">(adopción institucional, no vinculante)</span></td><td>NIST AI RMF 1.0 (NIST AI 100-1, 2023)</td><td>Estructura GOVERN, MAP, MEASURE y MANAGE usada en la sección 2.</td></tr>
+  <tr><td>Recomendación de la OCDE sobre IA (2019, revisada en 2024) y Recomendación de la UNESCO sobre la ética de la IA (2021)</td><td>Principios de equidad, transparencia, supervisión humana y rendición de cuentas.</td></tr>
+  <tr><td>Estrategia Nacional de Inteligencia Artificial de la RD (ENIA, 2023); Reglamento (UE) 2024/1689 (AI Act) como referencia comparada</td><td>La ENIA es una política orientadora, no una ley. El AI Act no aplica en la RD, pero sirve de referencia: los sistemas que influyen en el acceso a servicios públicos esenciales se consideran de alto riesgo.</td></tr>
+  <tr><td><b>Recomendación ética</b><br><span class="small">(decisión de este expediente)</span></td><td>Controles propuestos más allá de lo exigido</td><td>Quitar <code>age_band</code> aunque ninguna ley lo prohíba expresamente; tolerancia de 0.16 en las brechas; mínimo de 30 casos para interpretar un subgrupo; revisor de apelación que no ve la puntuación; consulta a representantes comunitarios; mantener la línea base no predictiva como respaldo.</td></tr>
+</table>
+<p class="small">La interpretación normativa es responsabilidad del estudiante. Los artículos e instrumentos citados se verificaron en sus fuentes oficiales antes de entregar.</p>
+
+<h2>5. Mitigación, trade-offs y decisión</h2>
+<p class="small">Evidencia: <code>reports/lab12/model_comparison.csv</code> (generado con <code>scripts/lab12_compare.py</code>), <code>student_inputs/lab12_decision.yml</code> y <code>reports/lab12/AUDIT_REPORT.md</code>.</p>
+<table>
+  <tr><th>Opción</th><th>Accuracy</th><th>Recall</th><th>Brecha recall [IC 95 %]</th><th>Brecha FPR [IC 95 %]</th><th>Tamaño</th><th>Umbrales</th></tr>
+  <tr><td>Línea base no predictiva</td><td class="n">0.625</td><td class="n">0.435</td><td class="n">0.144 [0.009–0.332]</td><td class="n">0.010 [0.003–0.213]</td><td class="n">0 KB</td><td class="bad">No (recall)</td></tr>
+  <tr><td>Regresión logística</td><td class="n">0.719</td><td class="n">0.717</td><td class="n">0.138 [0.011–0.314]</td><td class="n">0.125 [0.005–0.398]</td><td class="n">3.6 KB</td><td class="ok">Sí</td></tr>
+  <tr><td>Árbol (profundidad 5)</td><td class="n">0.706</td><td class="n">0.717</td><td class="n">0.181 [0.023–0.357]</td><td class="n">0.168 [0.009–0.489]</td><td class="n">7.9 KB</td><td class="bad">No (brechas)</td></tr>
+  <tr><td><b>Logística sin <code>age_band</code></b></td><td class="n">0.725</td><td class="n">0.717</td><td class="n">0.138 [0.011–0.322]</td><td class="n">0.144 [0.008–0.422]</td><td class="n">3.3 KB</td><td class="ok">Sí</td></tr>
+</table>
+<h3>Trade-offs</h3>
+<ul>
+  <li><b>Equidad frente a utilidad:</b> la línea base casi no tiene brecha de FPR (0.010), pero pierde el 56 % de los casos reales. Su menor brecha no compensa ese daño.</li>
+  <li><b>Complejidad frente a beneficio (Green AI):</b> el árbol no mejora el recall, aumenta las dos brechas por encima de 0.16 y pesa el doble. Se descarta. Todos los modelos entrenan en menos de un segundo y pesan menos de 8 KB, muy por debajo de los límites de 500 ms y 1024 KB.</li>
+  <li><b>Minimización frente a brecha de FPR:</b> quitar <code>age_band</code> mantiene el recall, mejora la accuracy y reduce el tamaño, a cambio de +0.019 en la brecha de FPR, que queda dentro de la tolerancia. Se acepta porque elimina el uso directo de un atributo sensible (R02).</li>
+</ul>
+<h3>Por qué una brecha no prueba discriminación causal</h3>
+<p>La etiqueta puede estar sesgada (R01); variables como <code>zone</code>, la infraestructura o los incidentes previos pueden actuar como proxies o confusores; los IC son anchos; y solo hay un corte temporal. Las brechas obligan a <b>investigar</b> (revisar los falsos negativos de G1 con el equipo de campo y auditar el origen de la etiqueta), pero no bastan para declarar discriminación ni para descartarla.</p>
+
+<div class="box">
+<b>Decisión final: MODIFICAR y LIMITAR. No se despliega en operación.</b> (Equivale a la decisión REVIEW de LAB11 y LAB12.)
+<ul>
+  <li><b>Modificar:</b> adoptar la regresión logística sin <code>age_band</code> y descartar el árbol.</li>
+  <li><b>Limitar:</b> el sistema solo ordena la cola; toda decisión es humana y se justifica; se mantienen la apelación y el aviso de uso, y la línea base queda como respaldo.</li>
+  <li><b>Por qué no se despliega ahora:</b> el recall de G1 (0.653) está por debajo de 0.68, los IC de las brechas superan 0.16 y la etiqueta (R01) no se ha auditado.</li>
+  <li><b>Condiciones para desplegar:</b> recall de G1 ≥ 0.68, IC de las brechas ≤ 0.16 con más datos o validación temporal móvil, auditoría de la etiqueta y log de decisiones y apelación operativos.</li>
+  <li><b>Condiciones para no utilizar o retirar:</b> las de la condición de retiro de la sección 1.</li>
+  <li><b>Responsables:</b> aprueba el Institutional Owner; ejecuta el Product Owner; el Data Scientist responde por la auditoría y la nueva evaluación.</li>
+</ul>
+</div>
+
+<h2>6. Pruebas, reproducibilidad, referencias y declaración de IA</h2>
+<h3>Pruebas y trazabilidad</h3>
+<p>El entorno usa Python 3.12.14 con <code>uv</code> (<code>pyproject.toml</code> + <code>uv.lock</code>), scikit-learn 1.9.1, Fairlearn 0.12.0 y Streamlit 1.64.0. Resultado de <code>uv run pytest -v</code>: <b>10 passed</b>.</p>
+<table>
+  <tr><th>Prueba</th><th>Qué verifica</th></tr>
+  <tr><td><code>test_impact.py</code> (2)</td><td>Un riesgo completo recibe prioridad P×I y los valores <code>REPLACE</code> se rechazan</td></tr>
+  <tr><td><code>test_privacy.py</code>, <code>test_data.py</code> (3)</td><td>Se rechazan identificadores directos y se cumple el contrato del dataset (n ≥ 500, <code>case_id</code> único)</td></tr>
+  <tr><td><code>test_fairness.py</code>, <code>test_model.py</code> (2)</td><td>Las brechas están acotadas en [0, 1], hay grupos G1 y G2, y las predicciones son binarias</td></tr>
+  <tr><td><code>test_governance.py</code> (2)</td><td>Si falla un umbral la decisión es REVIEW, y cada actividad del RACI necesita un responsable final (A)</td></tr>
+  <tr><td><code>test_app.py</code> (1)</td><td>La app de Streamlit arranca y advierte que el caso es sintético</td></tr>
+</table>
+<p>Commits relevantes: <code>chore: initialize Unit 04 project</code>, <code>fix: repair multi-line strings…</code>, <code>docs: complete ethical impact assessment</code>, <code>docs: add README and confirm human review for LAB11</code>, <code>feat: add group fairness audit</code> y <code>docs: add interpretation rule to LAB11 and LAB12 reports</code>.</p>
+
+<h3>Referencias</h3>
+<ul class="small">
+  <li>NIST (2023). <i>Artificial Intelligence Risk Management Framework (AI RMF 1.0)</i>. NIST AI 100-1. https://doi.org/10.6028/NIST.AI.100-1</li>
+  <li>OECD (2019, rev. 2024). <i>Recommendation of the Council on Artificial Intelligence</i>. OECD/LEGAL/0449.</li>
+  <li>UNESCO (2021). <i>Recommendation on the Ethics of Artificial Intelligence</i>.</li>
+  <li>Fairlearn Contributors. <i>Performing a Fairness Assessment</i>. Documentación oficial de Fairlearn (MetricFrame).</li>
+  <li>República Dominicana. Constitución de la República (2015), arts. 39, 44 y 70.</li>
+  <li>República Dominicana. Ley núm. 172-13 sobre protección integral de los datos personales (2013).</li>
+  <li>República Dominicana. Ley núm. 200-04 General de Libre Acceso a la Información Pública (2004).</li>
+  <li>República Dominicana. Estrategia Nacional de Inteligencia Artificial (ENIA, 2023).</li>
+  <li>Unión Europea. Reglamento (UE) 2024/1689 de Inteligencia Artificial (referencia comparada).</li>
+</ul>
+
+<h3>Declaración de uso de IA</h3>
+<p>Se usó <b>Claude (Anthropic), modelo Opus 5.5, mediante Claude Code</b> para leer los manuales, preparar el entorno, corregir dos scripts del proyecto base con <code>SyntaxError</code>, redactar borradores de los insumos y los informes, escribir <code>scripts/lab12_compare.py</code> (línea base, variante sin <code>age_band</code> e IC bootstrap) y estructurar este documento. La declaración completa, con los prompts textuales, está en <code>docs/AI_USE_DECLARATION.md</code>. Prompts relevantes: «que necesitas para trabajar estra practica»; «Sí, haz el LAB12 con lo que propones: línea base no predictiva, mínimo de 30 casos por subgrupo, y sin commits»; «agrega la sección Observación / Evidencia / Interpretación / Decisión»; «hacer lo que pide para el Ejercicio 07».</p>
+<p><b>Verificaciones y correcciones.</b> Todas las cifras proceden de los archivos generados por los scripts y no fueron escritas a mano. La IA detectó que <code>age_band</code> es sensible pero se usaba como predictor y lo registró como riesgo, sin cambiar el modelo base. El bootstrap inicial (unos 4 minutos) se reescribió con numpy y dio los mismos resultados en unos 8 segundos. El estudiante revisó y aceptó los valores del análisis (tolerancias, mínimo de soporte y decisión), verificó las referencias normativas y asume la responsabilidad del contenido.</p>
+
+<h2>Anexo A · Reproducción</h2>
+<p>Desde la carpeta <code>INF8239_U04_Gobernanza_DSS</code>:</p>
+<table class="small">
+  <tr><td><code>uv sync --frozen</code> → <code>uv run pytest -q</code> → <code>uv run python scripts/check_environment.py</code></td></tr>
+  <tr><td><code>uv run python scripts/lab11_impact.py</code></td></tr>
+  <tr><td><code>uv run python scripts/lab12_audit.py --model logistic</code> → <code>--model tree</code> → <code>uv run python scripts/lab12_compare.py</code> → <code>uv run python scripts/validate_lab12_decision.py</code></td></tr>
+</table>
+
+<h2>Anexo B · Correspondencia con la rúbrica</h2>
+<table>
+  <tr><th>Criterio (puntos)</th><th>Sección</th><th>Artefactos editables en el repositorio</th></tr>
+  <tr><td>Finalidad, interesados y proporcionalidad (0.75)</td><td>1</td><td><code>student_inputs/lab11_impact.yml</code>, <code>stakeholders.csv</code></td></tr>
+  <tr><td>Registro de riesgos y NIST AI RMF (1.00)</td><td>2</td><td><code>risk_register.csv</code>, <code>reports/lab11/*</code></td></tr>
+  <tr><td>Auditoría global, por grupo e interseccional (1.25)</td><td>3</td><td><code>reports/lab12/*</code>, <code>scripts/lab12_compare.py</code></td></tr>
+  <tr><td>Mitigación, trade-offs y decisión (1.25)</td><td>4 y 5</td><td><code>lab12_decision.yml</code>, <code>AUDIT_REPORT.md</code>, <code>DECISION_RECORD.md</code></td></tr>
+  <tr><td>Pruebas, referencias y declaración de IA (0.75)</td><td>6</td><td><code>tests/</code>, <code>docs/AI_USE_DECLARATION.md</code>, historial de Git</td></tr>
+</table>
+<p class="small">Fuente editable de este PDF: <code>docs/ejercicio07/INF8239_U04_E07_Mueses.html</code>.</p>
+
+</body>
+</html>
