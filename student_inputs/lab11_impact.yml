@@ -1,9 +1,42 @@
-purpose: REPLACE
-assisted_decision: REPLACE
-users: REPLACE
-affected_population: REPLACE
-owner: REPLACE
-non_predictive_alternative: REPLACE
-out_of_scope_use: REPLACE
-withdrawal_condition: REPLACE
-appeal_mechanism: REPLACE
+purpose: >-
+  Ordenar la cola de casos territoriales sintéticos para que el equipo técnico
+  revise primero los que muestran mayor señal de riesgo de infraestructura
+  (incidentes previos, puntaje de infraestructura y exposición). El sistema solo
+  propone un orden de revisión; no clasifica personas ni zonas como "riesgosas".
+assisted_decision: >-
+  Qué casos revisa primero el analista territorial dentro de la ventana semanal
+  de inspección. La decisión de inspeccionar, intervenir o descartar sigue siendo
+  humana y debe quedar registrada con su justificación.
+users: >-
+  Analistas territoriales y su supervisor (Operator), que consultan el DSS como
+  apoyo. El equipo de datos (Data Scientist, Data Engineer y ML Engineer) lo mantiene.
+affected_population: >-
+  Hogares y residentes de las cuatro zonas sintéticas (Norte, Sur, Este y Oeste)
+  cuyos casos entran en la cola, con especial atención al grupo protegido G2 y a
+  la franja de edad 60+, que pueden ser sobre o subpriorizados.
+owner: >-
+  Institutional Owner (dirección de la institución territorial), que tiene la
+  autoridad para aprobar, suspender o retirar el sistema. El Product Owner
+  responde por la operación diaria según student_inputs/raci.csv.
+non_predictive_alternative: >-
+  Cola cronológica por fecha de recepción combinada con una lista de verificación
+  pública y fija (por ejemplo, infrastructure_score < 0.30 o 5 o más incidentes
+  previos pasan a revisión prioritaria). Esta línea base se aplica en paralelo y el
+  modelo solo se justifica si supera su recall sin aumentar las brechas entre grupos.
+out_of_scope_use: >-
+  Intervención automática, decisiones de elegibilidad para ayudas o servicios,
+  declaración de emergencia, perfilamiento de personas o grupos, uso del grupo
+  protegido o de la edad para priorizar, y cualquier inferencia sobre poblaciones
+  reales de la República Dominicana a partir de estos datos sintéticos.
+withdrawal_condition: >-
+  Suspender el sistema y volver a la cola cronológica si ocurre cualquiera de estas
+  condiciones: recall global < 0.68, brecha de recall o de FPR entre G1 y G2 > 0.16
+  (configs/governance.yml) en la revisión mensual, más del 20 % de recomendaciones
+  revocadas en apelación durante un trimestre, evidencia de uso fuera de alcance, o
+  aparición de identificadores directos en los datos.
+appeal_mechanism: >-
+  Cualquier persona afectada o analista puede pedir la revisión de un caso
+  mediante un formulario o la ventanilla de la institución. Un supervisor que no
+  intervino en el caso lo revisa sin ver la puntuación del modelo y responde en 10
+  días hábiles. El resultado se registra en el log de apelaciones, que alimenta la
+  revisión mensual.

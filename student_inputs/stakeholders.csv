@@ -1,5 +1,5 @@
 stakeholder,benefit,harm,power,participation
-Affected person,REPLACE,REPLACE,low,REPLACE
-Operator,REPLACE,REPLACE,medium,REPLACE
-Institutional owner,REPLACE,REPLACE,high,REPLACE
-Data team,REPLACE,REPLACE,medium,REPLACE
+Affected person,Su caso con mayor riesgo de infraestructura se revisa antes y recibe atención más oportuna,Ser sobrepriorizado (más inspecciones y estigma territorial) o subpriorizado (riesgo real ignorado) por sesgos del dato histórico; no saber por qué su caso quedó en ese orden,low,Aviso claro de que se usa un sistema de apoyo; derecho de apelación con respuesta en 10 días hábiles; representantes comunitarios consultados en la revisión trimestral
+Operator,Cola de trabajo ordenada que reduce el tiempo de búsqueda de casos urgentes,Sesgo de automatización (aceptar el orden sin revisar); carga de responsabilidad por errores del modelo; pérdida de criterio propio,medium,Capacitación previa; campo obligatorio de justificación al aceptar o cambiar el orden; canal para reportar recomendaciones erróneas que se revisa mensualmente
+Institutional owner,Uso más eficiente de inspectores y trazabilidad de las decisiones,Daño reputacional y legal si el sistema discrimina o se usa fuera de alcance; decisiones basadas en métricas engañosas,high,Aprueba la evaluación de impacto; firma la decisión GO/REVIEW/STOP; preside la revisión mensual de métricas y apelaciones con autoridad para retirar el sistema
+Data team,Caso de uso con reglas claras de gobernanza y criterios de aceptación medibles,Presión para desplegar sin evidencia suficiente; responsabilidad por fallas técnicas o fugas de datos,medium,Mantiene el registro de riesgos y las pruebas; ejecuta la auditoría de equidad del LAB12; puede escalar un STOP técnico al Institutional Owner
