@@ -15,7 +15,7 @@
   },
   "version": {
     "package": "0.1.0",
-    "git_commit": "39262e5",
+    "git_commit": "bffd970",
     "model": "logistic",
     "model_features": [
       "zone",
@@ -56,9 +56,9 @@
       "fpr_gap": 0.14423076923076922
     },
     "resources": {
-      "training_seconds": 0.08027409994974732,
+      "training_seconds": 0.09556289995089173,
       "model_kb": 3.2822265625,
-      "latency_ms": 0.0436174996139016
+      "latency_ms": 0.06733374975738116
     },
     "files": [
       "reports/lab11/DECISION_RECORD.md",

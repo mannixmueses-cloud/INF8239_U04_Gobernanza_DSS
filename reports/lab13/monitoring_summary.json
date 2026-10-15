@@ -1,0 +1,30 @@
+{
+  "reference": "2026-01-01 a 2026-09-24 (n=480)",
+  "thresholds": {
+    "min_recall": 0.68,
+    "min_group_recall": 0.68,
+    "max_recall_gap": 0.16,
+    "max_fpr_gap": 0.16,
+    "max_latency_ms": 500,
+    "max_model_kb": 1024,
+    "cadence": "mensual",
+    "max_psi": 0.25,
+    "min_support": 30
+  },
+  "months_with_alerts": [
+    {
+      "month": "2026-10",
+      "alerts": "min_group_recall"
+    },
+    {
+      "month": "2026-11",
+      "alerts": "drift:previous_incidents;drift:infrastructure_score;recall_gap;min_group_recall"
+    },
+    {
+      "month": "2026-12",
+      "alerts": "drift:previous_incidents;drift:infrastructure_score;recall_gap"
+    }
+  ],
+  "owner": "ML Engineer (R) · Product Owner (A)",
+  "cadence": "mensual"
+}

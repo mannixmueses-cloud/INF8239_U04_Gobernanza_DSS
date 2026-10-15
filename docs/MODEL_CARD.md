@@ -58,3 +58,4 @@ Se eligió la opción suficiente más liviana: el árbol duplica el tamaño sin 
 - **Accountable:** Institutional Owner. **Responsable operativo:** Product Owner. **Mantenimiento técnico:** Data Scientist y ML Engineer (`student_inputs/raci.csv`).
 - **Versión:** paquete `inf8239_u04` 0.1.0. La versión exacta del commit, del modelo y de los datos se registra en `reports/lab13/decision_record.json`.
 - **Revisión:** mensual, y obligatoria antes de cualquier cambio de modelo, de datos o de umbrales. El estado actual es **REVIEW**: no se usa en operación hasta que el recall de G1 llegue a 0.68 o más con IC de las brechas por debajo de 0.16.
+- **Monitoreo:** mensual, con `scripts/lab13_monitor.py` (deriva PSI, tasa de selección y recall por grupo). Ver `docs/RUNBOOK.md` y `reports/lab13/monitoring_report.csv`. Los traspasos entre roles están en `docs/RACI_HANDOFFS.md`.

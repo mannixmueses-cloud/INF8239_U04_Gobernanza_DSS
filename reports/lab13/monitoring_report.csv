@@ -1,0 +1,4 @@
+month,n,selection_rate,psi_zone,psi_previous_incidents,psi_infrastructure_score,psi_exposure,n_G1,selection_G1,recall_G1,n_G2,selection_G2,recall_G2,recall_gap,low_support,alerts
+2026-10,60,0.433,0.043,0.184,0.232,0.105,38,0.395,0.667,22,0.5,0.588,0.079,True,min_group_recall
+2026-11,54,0.556,0.03,0.459,0.303,0.124,33,0.424,0.562,21,0.762,0.867,0.305,True,drift:previous_incidents;drift:infrastructure_score;recall_gap;min_group_recall
+2026-12,46,0.609,0.039,0.405,0.264,0.173,30,0.5,0.722,16,0.812,1.0,0.278,True,drift:previous_incidents;drift:infrastructure_score;recall_gap

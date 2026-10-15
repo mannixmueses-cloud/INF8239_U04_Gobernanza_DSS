@@ -15,8 +15,11 @@ Proyecto base acumulativo para LAB11–13. El estudiante completa archivos peque
 | U04.LAB12 | Auditoría de equidad con Fairlearn | ✅ Completo, decisión **REVIEW** |
 | **Ejercicio 07** | Evaluación de impacto y auditoría de equidad (integra LAB11 y LAB12) | ✅ PDF entregado en el aula virtual, decisión **MODIFICAR y LIMITAR** |
 | U04.LAB13 | Gobernanza y DSS responsable con Streamlit | ✅ Completo, decisión gobernada **REVIEW** (falla `min_group_recall`) |
+| **Ejercicio 08** | Expediente de gobernanza y simulacro (integra LAB13) | ✅ PDF entregado en el aula virtual, decisión **LIMITAR y MODIFICAR** |
 
 **Ejercicio 07:** el PDF de síntesis se entrega en el aula virtual y **no se versiona** en este repositorio (`*.pdf` está en `.gitignore`). Su fuente editable está en [`docs/ejercicio07/INF8239_U04_E07_Mueses.html`](docs/ejercicio07/INF8239_U04_E07_Mueses.html). Para regenerar el PDF, abra el HTML en el navegador e imprímalo como PDF (tamaño Carta, sin encabezados).
+
+**Ejercicio 08:** igual que el 07, el PDF se entrega en el aula virtual y no se versiona. Su fuente editable está en [`docs/ejercicio08/INF8239_U04_E08_Mueses.html`](docs/ejercicio08/INF8239_U04_E08_Mueses.html). Los artefactos nuevos son [`docs/DATA_INVENTORY.md`](docs/DATA_INVENTORY.md) (inventario, minimización y retención), [`docs/RACI_HANDOFFS.md`](docs/RACI_HANDOFFS.md) (traspasos entre roles) y el monitoreo mensual `scripts/lab13_monitor.py`.
 
 ## Inicio
 
@@ -28,7 +31,7 @@ uv run pytest -q
 uv run python scripts/check_environment.py
 ```
 
-Resultado esperado: `19 passed` y `{'python_project': 'ok', 'dataset_status': 'valid', 'rows': 640, 'columns': 9}`.
+Resultado esperado: `21 passed` y `{'python_project': 'ok', 'dataset_status': 'valid', 'rows': 640, 'columns': 9}`.
 
 > Si se renombra o mueve la carpeta, el entorno `.venv` conserva la ruta anterior. Se repara con `uv sync --frozen --reinstall`.
 
@@ -40,6 +43,7 @@ uv run python scripts/lab12_audit.py --model tree
 uv run python scripts/lab12_compare.py
 uv run python scripts/validate_lab12_decision.py
 uv run python scripts/lab13_governance.py
+uv run python scripts/lab13_monitor.py
 uv run python scripts/simulate_incident.py
 uv run streamlit run app.py
 ```
@@ -150,8 +154,16 @@ El DSS prioriza la revisión humana y presenta evidencia. **No** declara emergen
 ### Simulacro de incidente
 `scripts/simulate_incident.py` toma la señal real de las puertas fallidas. El postmortem `reports/lab13/INCIDENT_POSTMORTEM.md` cubre detección, contención, preservación de evidencia (`reports/lab13/incidents/SIM-001/` con `SHA256SUMS.txt`), comunicación, rollback a la cola cronológica y acciones correctivas con responsables y fechas.
 
+### Monitoreo mensual (Ejercicio 08)
+`scripts/lab13_monitor.py` toma como referencia el periodo de entrenamiento y evalúa por separado octubre, noviembre y diciembre de 2026. Mide la deriva de cada variable (PSI > 0.25), la tasa de selección y el recall por grupo, y marca con `low_support` los grupos con menos de 30 casos.
+
+Resultado (`reports/lab13/monitoring_report.csv`):
+- Desde noviembre hay deriva en `previous_incidents` (PSI de 0.46) y en `infrastructure_score` (0.30).
+- La tasa de selección sube de 0.43 a 0.61.
+- Las alertas de recall por grupo tienen soporte bajo, así que se interpretan con cautela.
+
 ### Pruebas
-Hay 19 pruebas. `tests/test_dss.py` cubre las pruebas post instalación del manual:
+Hay 21 pruebas. `tests/test_monitoring.py` cubre el cálculo de PSI y el reporte mensual. `tests/test_dss.py` cubre las pruebas post instalación del manual:
 - **Inicio:** la app abre y muestra la acción humana.
 - **Contrato:** una columna faltante se rechaza.
 - **Puerta:** una brecha o un grupo fuera de tolerancia produce REVIEW, y un atributo sensible en el modelo produce STOP.

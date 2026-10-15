@@ -18,3 +18,8 @@ gates:
   max_fpr_gap: 0.16
   max_latency_ms: 500
   max_model_kb: 1024
+# LAB13 / Ejercicio 08: monitoreo mensual (scripts/lab13_monitor.py)
+monitoring:
+  cadence: mensual
+  max_psi: 0.25        # deriva de una variable de entrada
+  min_support: 30      # casos por grupo y mes para interpretar el recall

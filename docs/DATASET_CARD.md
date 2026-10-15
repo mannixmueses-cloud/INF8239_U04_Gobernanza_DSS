@@ -16,3 +16,6 @@ Synthetic territorial-risk dataset generated with a fixed educational seed. It c
 ## Uso en el modelo
 - **Corte temporal:** el 75 % inicial para entrenar (hasta el 2026-09-24) y el 25 % final para probar. Así no se usa el futuro para evaluar el pasado.
 - **Excluidas del modelo:** `case_id`, `received_date`, `target`, `protected_group` (solo para auditar) y `age_band` (excluida en el LAB12). Quitar estas columnas no elimina los sesgos indirectos: `zone` puede actuar como proxy (riesgo R05).
+
+## Inventario y retención
+El inventario completo de campos y artefactos, con las decisiones de minimización y los plazos de retención, está en `docs/DATA_INVENTORY.md`.

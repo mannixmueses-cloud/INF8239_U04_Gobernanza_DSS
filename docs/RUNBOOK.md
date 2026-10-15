@@ -2,6 +2,20 @@
 
 Aplica a cualquier alerta del DSS. Los roles provienen de `student_inputs/raci.csv` y los umbrales de `configs/governance.yml`.
 
+## Monitoreo (antes del incidente)
+- **Cadencia:** mensual, con `uv run python scripts/lab13_monitor.py`. Responsable: ML Engineer. Accountable: Product Owner.
+- **Referencia:** el periodo de entrenamiento (2026-01-01 a 2026-09-24, n = 480).
+- **Señales por mes** (`reports/lab13/monitoring_report.csv`):
+  - deriva de cada variable de entrada (PSI > 0.25);
+  - tasa de selección global y por grupo;
+  - recall por grupo y brecha de recall (> 0.16), y recall mínimo por grupo (< 0.68);
+  - soporte: menos de 30 casos por grupo y mes se marca `low_support`, y esas métricas no se interpretan solas.
+- **Resultado simulado:**
+  - Desde 2026-11 hay deriva en `previous_incidents` (PSI de 0.459 y 0.405) y en `infrastructure_score` (0.303 y 0.264).
+  - La tasa de selección sube de 0.433 a 0.609, sobre todo en G2 (de 0.500 a 0.812).
+  - Las alertas de recall por grupo tienen soporte bajo (G2 tiene entre 16 y 22 casos por mes).
+  - **Clasificación:** SEV2. Se mantiene REVIEW y se abre una investigación de deriva (acción 4 del postmortem).
+
 1. **Detection and classification.** Las señales son:
    - una puerta fallida en `reports/lab13/deployment_decision.json` (recall < 0.68, recall de un grupo < 0.68, brecha de recall o de FPR > 0.16, latencia > 500 ms, modelo > 1024 KB o puerta `privacy`);
    - una deriva en el monitoreo mensual (cambio de la tasa de selección o del recall respecto a la referencia);

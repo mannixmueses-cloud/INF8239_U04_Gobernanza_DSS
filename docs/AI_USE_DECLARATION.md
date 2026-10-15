@@ -97,5 +97,29 @@ Verificaciones humanas del LAB13:
 - [x] Revisé el RACI, la Model Card, el Runbook y el postmortem, incluidos sus responsables y fechas.
 - [x] Estoy de acuerdo con las puertas nuevas (`min_group_recall` y `privacy`) y con la decisión REVIEW, o las cambié con mi propia justificación.
 
+## Ejercicio 08 · Expediente de gobernanza y simulacro
+
+Prompts textuales usados con Claude:
+- «que mas queda por hacer del lab13»;
+- «si lab13 dices que ya esta completo, pues procede con lo indicado y hazme el documento pdf sin fecha de entrega» (junto con el mandato y la rúbrica del Ejercicio 08).
+
+Fragmentos afectados (escritos por la IA):
+- Monitoreo: `src/inf8239_u04/monitoring.py`, `scripts/lab13_monitor.py`, la sección `monitoring` de `configs/governance.yml` y `tests/test_monitoring.py` (2 pruebas). Genera `reports/lab13/monitoring_report.csv` y `monitoring_summary.json`.
+- Documentos: `docs/DATA_INVENTORY.md`, `docs/RACI_HANDOFFS.md`, la sección "Monitoreo" de `docs/RUNBOOK.md`, los enlaces añadidos en la Model Card y la Dataset Card, y la sección del Ejercicio 08 del `README.md`.
+- `docs/ejercicio08/INF8239_U04_E08_Mueses.html` (fuente editable) y el PDF generado a partir de ella. El PDF no tiene fecha de entrega ni fechas en sus metadatos, se entrega en el aula virtual y no se versiona.
+
+Valores propuestos por la IA que el estudiante debe aprobar: los plazos de retención, el umbral de deriva PSI > 0.25 y el mínimo de 30 casos por grupo y mes.
+
+Verificaciones y correcciones:
+- Las cifras del monitoreo provienen de `reports/lab13/monitoring_report.csv`. Las alertas de recall por grupo se presentan con soporte bajo, no como conclusiones.
+- La primera versión del PDF dejaba el título de la sección 4 separado de su tabla y partía los meses en dos líneas; se corrigió.
+
+Verificaciones humanas del Ejercicio 08:
+<!-- El estudiante debe completar o confirmar esta sección antes de entregar. -->
+- [ ] Revisé y apruebo los plazos de retención de `docs/DATA_INVENTORY.md` y los traspasos de `docs/RACI_HANDOFFS.md`.
+- [ ] Ejecuté `lab13_monitor.py` y `pytest -q` (21 passed), y las cifras del PDF coinciden con los CSV.
+- [ ] Verifiqué en sus fuentes oficiales la Ley 172-13, los arts. 44 y 70 de la Constitución, la Ley 200-04 e ISO/IEC 42001.
+- [ ] Estoy de acuerdo con la decisión final LIMITAR y MODIFICAR, o la cambié con mi propia justificación.
+
 ## Responsabilidad asumida
 La responsabilidad final sobre el contenido entregado, la verificación de resultados y la decisión ética recae completamente en el estudiante.
