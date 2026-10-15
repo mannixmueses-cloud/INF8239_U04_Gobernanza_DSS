@@ -25,7 +25,26 @@ Prompts textuales usados con Claude:
 - `lab11_impact.py` sobrescribía `DECISION_RECORD.md` en cada ejecución. Ahora conserva el archivo si ya existe.
 - Al perfilar los datos se encontró que `age_band` está declarada como sensible en `configs/governance.yml` pero el modelo la usa como predictor. Esto se registró como riesgo R02 y no se modificó el código del modelo.
 
-## Verificaciones humanas
+## LAB12 · Auditoría de equidad
+
+Prompts textuales usados con Claude:
+- «que necesitas para hacer el U04.LAB12» (junto con el manual del LAB12);
+- «Sí, haz el LAB12 con lo que propones: línea base no predictiva, mínimo de 30 casos por subgrupo, y sin commits; dame los comandos al final.»
+
+Fragmentos afectados:
+- `scripts/lab12_compare.py`: script nuevo escrito por la IA. Compara la línea base no predictiva, la regresión logística, el árbol y la logística sin `age_band`, calcula IC 95 % bootstrap de las brechas y marca los subgrupos con menos de 30 casos.
+- `student_inputs/lab12_decision.yml`, `reports/lab12/AUDIT_REPORT.md` y la sección LAB12 del `README.md`: borradores redactados por la IA a partir de los resultados generados.
+
+Errores detectados y correcciones:
+- La primera versión del bootstrap usaba `MetricFrame` en cada remuestreo y tardaba unos 4 minutos. Se reemplazó por un cálculo directo con numpy; se obtuvieron los mismos resultados en unos 8 segundos.
+
+Verificaciones humanas del LAB12:
+<!-- El estudiante debe completar o confirmar esta sección antes de entregar. -->
+- [x] Ejecuté `lab12_audit.py` con los dos modelos, `lab12_compare.py` y `validate_lab12_decision.py`, y comprobé que las cifras del informe coinciden con los CSV.
+- [x] Revisé que el mínimo de 30 casos y los subgrupos sin soporte estén bien interpretados.
+- [x] Estoy de acuerdo con la decisión REVIEW y con preferir la logística sin `age_band`, o la cambié con mi propia justificación.
+
+## Verificaciones humanas (LAB11)
 <!-- El estudiante debe completar o confirmar esta sección antes de entregar. -->
 - [x] Revisé y ajusté al caso el propósito, la alternativa no predictiva, la condición de retiro y la apelación.
 - [x] Revisé la probabilidad, el impacto y el responsable de cada uno de los 9 riesgos.

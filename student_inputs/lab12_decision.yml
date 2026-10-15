@@ -1,6 +1,39 @@
-priority_harm: REPLACE
-primary_metric: REPLACE
-tolerance: REPLACE
-evidence: REPLACE
-limitation: REPLACE
-recommendation: REPLACE
+priority_harm: >-
+  Falsos negativos: un caso con riesgo real de infraestructura queda al final de
+  la cola y no se revisa a tiempo. Con la regresión logística este daño se
+  concentra en G1 (recall 0.653 frente a 0.791 en G2). El daño secundario son los
+  falsos positivos en G2 (FPR 0.375 frente a 0.250 en G1), que generan
+  inspecciones innecesarias y refuerzan el riesgo de sobrevigilancia (R01).
+primary_metric: >-
+  Brecha de recall entre G1 y G2, junto con el recall global. Se vigila además la
+  brecha de FPR como métrica secundaria. Accuracy no se usa para decidir, porque
+  la clase positiva es el 55 % y ocultaría la falla localizada en G1.
+tolerance: >-
+  Recall global >= 0.68 y brechas de recall y de FPR <= 0.16
+  (configs/governance.yml). Un subgrupo interseccional solo se interpreta si tiene
+  30 casos o más en el conjunto de prueba. Una brecha cuyo IC 95 % bootstrap
+  supera 0.16 se considera no confirmada y requiere más datos.
+evidence: >-
+  reports/lab12/model_comparison.csv (prueba temporal, n=160, G1=101, G2=59).
+  Logistic: recall 0.717, brecha de recall 0.138 [IC 0.011-0.314], brecha de FPR
+  0.125 [0.005-0.398], 3.6 KB; pasa los umbrales. Tree: el mismo recall, pero
+  brechas de 0.181 y 0.168, que incumplen los umbrales, con el doble de tamaño
+  (7.9 KB). Logistic sin age_band: el mismo recall, accuracy de 0.725, brecha de
+  FPR de 0.144 y 3.3 KB; pasa los umbrales. Línea base no predictiva: recall 0.435,
+  muy por debajo del mínimo, aunque con una brecha de FPR casi nula (0.010).
+limitation: >-
+  La muestra de prueba es pequeña: los IC 95 % de las brechas superan 0.16 en
+  todos los modelos, así que no se puede afirmar que se cumplan los umbrales con
+  confianza. Solo 1 de los 8 subgrupos grupo-edad (G1 | 45-59, n=35) alcanza el
+  mínimo de 30 casos. Hay un único corte temporal y la etiqueta puede estar sesgada
+  (R01). Una brecha observada indica algo a investigar, no prueba discriminación
+  causal.
+recommendation: >-
+  REVIEW. Se descarta el árbol porque incumple los umbrales sin mejorar el recall y
+  pesa el doble (criterio Green AI). La regresión logística sin age_band queda como
+  candidata preferida: iguala el recall, elimina el uso directo de la edad (control
+  de R02) y es la más liviana, con un costo de +0.019 en la brecha de FPR. Antes de
+  GO hace falta más datos o validación temporal adicional para estrechar los IC,
+  revisar con el equipo de campo el bajo recall de G1 y mantener la revisión humana
+  de la cola. La línea base no predictiva sigue como respaldo si se activa la
+  condición de retiro.

@@ -1,0 +1,26 @@
+{
+  "min_support": 30,
+  "bootstrap_samples": 1000,
+  "seed": 42,
+  "test_rows": 160,
+  "test_by_group": {
+    "G1": 101,
+    "G2": 59
+  },
+  "gates": {
+    "min_recall": 0.68,
+    "max_recall_gap": 0.16,
+    "max_fpr_gap": 0.16,
+    "max_latency_ms": 500,
+    "max_model_kb": 1024
+  },
+  "subgroups_below_min_support": [
+    "G1 | 18-29",
+    "G1 | 30-44",
+    "G1 | 60+",
+    "G2 | 18-29",
+    "G2 | 30-44",
+    "G2 | 45-59",
+    "G2 | 60+"
+  ]
+}

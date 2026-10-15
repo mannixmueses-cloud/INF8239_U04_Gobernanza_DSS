@@ -12,7 +12,7 @@ Proyecto base acumulativo para LAB11–13. El estudiante completa archivos peque
 | Laboratorio | Tema | Estado |
 |---|---|---|
 | U04.LAB11 | Evaluación de impacto ético | ✅ Completo, decisión **REVIEW** |
-| U04.LAB12 | Auditoría de equidad con Fairlearn | ⏳ Pendiente |
+| U04.LAB12 | Auditoría de equidad con Fairlearn | ✅ Completo, decisión **REVIEW** |
 | U04.LAB13 | Gobernanza y DSS responsable con Streamlit | ⏳ Pendiente |
 
 ## Inicio
@@ -33,6 +33,9 @@ Resultado esperado: `10 passed` y `{'python_project': 'ok', 'dataset_status': 'v
 ```bash
 uv run python scripts/lab11_impact.py
 uv run python scripts/lab12_audit.py --model logistic
+uv run python scripts/lab12_audit.py --model tree
+uv run python scripts/lab12_compare.py
+uv run python scripts/validate_lab12_decision.py
 uv run python scripts/lab13_governance.py
 uv run streamlit run app.py
 ```
@@ -73,6 +76,45 @@ Se continúa solo hacia la fase de medición (LAB12), sin desplegar. Para pasar 
 ### Correcciones al proyecto base
 
 `scripts/lab11_impact.py` y `scripts/simulate_incident.py` fallaban con `SyntaxError` por cadenas de texto que ocupaban varias líneas. Se corrigieron, y `lab11_impact.py` ahora conserva un `DECISION_RECORD.md` existente en lugar de sobrescribirlo.
+
+## LAB12 · Auditoría de equidad con Fairlearn
+
+Audita el clasificador por grupo (`protected_group`) y por intersección grupo × edad. El atributo sensible se usa solo para auditar y no entra al modelo. El conjunto de prueba es el 25 % final en orden temporal: 160 casos (G1 = 101, G2 = 59).
+
+### Comparación de alternativas (`reports/lab12/model_comparison.csv`)
+
+| Opción | Recall | Brecha de recall | Brecha de FPR | Tamaño | Umbrales |
+|---|---|---|---|---|---|
+| Línea base no predictiva | 0.435 | 0.144 | 0.010 | 0 KB | ❌ recall |
+| Regresión logística | 0.717 | 0.138 | 0.125 | 3.6 KB | ✅ |
+| Árbol de decisión | 0.717 | 0.181 | 0.168 | 7.9 KB | ❌ brechas |
+| Logística sin `age_band` | 0.717 | 0.138 | 0.144 | 3.3 KB | ✅ |
+
+Umbrales (`configs/governance.yml`): recall ≥ 0.68 y brechas ≤ 0.16. Los IC 95 % bootstrap de todas las brechas superan 0.16, porque la muestra de prueba es pequeña.
+
+### Hallazgos
+
+- El promedio oculta una falla localizada: el recall de G1 es 0.653, por debajo del mínimo, frente a 0.791 en G2. G2 recibe más falsos positivos (FPR de 0.375 frente a 0.250).
+- Solo 1 de los 8 subgrupos grupo × edad (G1 \| 45-59, n = 35) alcanza el mínimo de **30 casos**. Los demás se reportan, pero no se interpretan.
+- El árbol no mejora el recall, aumenta las brechas y pesa el doble, así que no se justifica (Green AI).
+- Quitar `age_band` mantiene el recall y reduce el tamaño del modelo, lo que sirve de control para el riesgo R02.
+- Las brechas indican algo a investigar, no prueban discriminación causal: la etiqueta puede estar sesgada, hay proxies, los IC son anchos y hay un único corte temporal.
+
+### Decisión: REVIEW
+
+Se descarta el árbol y la candidata preferida es la regresión logística sin `age_band`. Antes de GO hacen falta más datos para estrechar los IC, recall de G1 ≥ 0.68 y revisión del origen de la etiqueta. Ver [`reports/lab12/AUDIT_REPORT.md`](reports/lab12/AUDIT_REPORT.md) y [`student_inputs/lab12_decision.yml`](student_inputs/lab12_decision.yml).
+
+### Evidencia generada (`reports/lab12/`)
+
+| Salida | Descripción |
+|---|---|
+| `logistic/`, `tree/` | Métricas globales, por grupo e interseccionales de cada modelo (`lab12_audit.py`) |
+| `model_comparison.csv` | Comparación de línea base, logistic, tree y logistic sin `age_band`: utilidad, brechas con IC 95 %, tiempo y tamaño |
+| `intersectional_support.csv` | Métricas grupo × edad con la columna `sufficient_support` (n ≥ 30) |
+| `comparison_meta.json` | Mínimo de soporte, semilla, bootstrap, tamaños de prueba y subgrupos sin soporte |
+| `AUDIT_REPORT.md` | Informe completo con interpretación y decisión |
+
+`scripts/lab12_compare.py` se agregó al proyecto base para cubrir la línea base y los intervalos de confianza que pide el checklist.
 
 ## Estructura
 
