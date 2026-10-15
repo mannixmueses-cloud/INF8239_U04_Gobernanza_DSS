@@ -1,0 +1,161 @@
+case_id,received_date,zone,probability,priority,recommended_action
+CASE-0538,2026-10-25,Sur,0.998,Alta,Revisión humana prioritaria
+CASE-0544,2026-11-04,Este,0.997,Alta,Revisión humana prioritaria
+CASE-0571,2026-11-04,Sur,0.991,Alta,Revisión humana prioritaria
+CASE-0539,2026-10-26,Norte,0.988,Alta,Revisión humana prioritaria
+CASE-0541,2026-11-01,Sur,0.988,Alta,Revisión humana prioritaria
+CASE-0568,2026-11-01,Norte,0.987,Alta,Revisión humana prioritaria
+CASE-0611,2026-12-17,Norte,0.987,Alta,Revisión humana prioritaria
+CASE-0615,2026-12-21,Oeste,0.985,Alta,Revisión humana prioritaria
+CASE-0582,2026-11-15,Norte,0.984,Alta,Revisión humana prioritaria
+CASE-0631,2026-12-10,Sur,0.982,Alta,Revisión humana prioritaria
+CASE-0619,2026-12-25,Oeste,0.978,Alta,Revisión humana prioritaria
+CASE-0623,2026-12-02,Oeste,0.978,Alta,Revisión humana prioritaria
+CASE-0523,2026-10-10,Oeste,0.975,Alta,Revisión humana prioritaria
+CASE-0573,2026-11-06,Norte,0.975,Alta,Revisión humana prioritaria
+CASE-0531,2026-10-18,Oeste,0.975,Alta,Revisión humana prioritaria
+CASE-0457,2026-09-25,Este,0.971,Alta,Revisión humana prioritaria
+CASE-0547,2026-11-07,Sur,0.967,Alta,Revisión humana prioritaria
+CASE-0583,2026-11-16,Sur,0.966,Alta,Revisión humana prioritaria
+CASE-0553,2026-11-13,Sur,0.963,Alta,Revisión humana prioritaria
+CASE-0617,2026-12-23,Oeste,0.951,Alta,Revisión humana prioritaria
+CASE-0598,2026-12-04,Oeste,0.942,Alta,Revisión humana prioritaria
+CASE-0596,2026-12-02,Norte,0.942,Alta,Revisión humana prioritaria
+CASE-0581,2026-11-14,Sur,0.942,Alta,Revisión humana prioritaria
+CASE-0497,2026-10-11,Este,0.941,Alta,Revisión humana prioritaria
+CASE-0533,2026-10-20,Oeste,0.939,Alta,Revisión humana prioritaria
+CASE-0486,2026-09-27,Este,0.937,Alta,Revisión humana prioritaria
+CASE-0501,2026-10-15,Norte,0.93,Alta,Revisión humana prioritaria
+CASE-0562,2026-11-22,Norte,0.926,Alta,Revisión humana prioritaria
+CASE-0609,2026-12-15,Oeste,0.924,Alta,Revisión humana prioritaria
+CASE-0597,2026-12-03,Oeste,0.904,Alta,Revisión humana prioritaria
+CASE-0616,2026-12-22,Norte,0.899,Alta,Revisión humana prioritaria
+CASE-0502,2026-10-16,Norte,0.898,Alta,Revisión humana prioritaria
+CASE-0496,2026-10-10,Este,0.89,Alta,Revisión humana prioritaria
+CASE-0505,2026-10-19,Sur,0.885,Alta,Revisión humana prioritaria
+CASE-0636,2026-12-15,Oeste,0.882,Alta,Revisión humana prioritaria
+CASE-0589,2026-11-22,Norte,0.881,Alta,Revisión humana prioritaria
+CASE-0551,2026-11-11,Norte,0.879,Alta,Revisión humana prioritaria
+CASE-0548,2026-11-08,Norte,0.869,Alta,Revisión humana prioritaria
+CASE-0635,2026-12-14,Este,0.86,Alta,Revisión humana prioritaria
+CASE-0564,2026-11-24,Norte,0.859,Alta,Revisión humana prioritaria
+CASE-0603,2026-12-09,Norte,0.85,Alta,Revisión humana prioritaria
+CASE-0513,2026-10-27,Sur,0.835,Alta,Revisión humana prioritaria
+CASE-0574,2026-11-07,Sur,0.832,Alta,Revisión humana prioritaria
+CASE-0599,2026-12-05,Este,0.815,Alta,Revisión humana prioritaria
+CASE-0604,2026-12-10,Este,0.813,Alta,Revisión humana prioritaria
+CASE-0575,2026-11-08,Oeste,0.808,Alta,Revisión humana prioritaria
+CASE-0594,2026-11-27,Norte,0.805,Alta,Revisión humana prioritaria
+CASE-0532,2026-10-19,Oeste,0.803,Alta,Revisión humana prioritaria
+CASE-0546,2026-11-06,Oeste,0.8,Alta,Revisión humana prioritaria
+CASE-0516,2026-10-03,Sur,0.795,Alta,Revisión humana prioritaria
+CASE-0607,2026-12-13,Norte,0.79,Alta,Revisión humana prioritaria
+CASE-0622,2026-12-01,Oeste,0.789,Alta,Revisión humana prioritaria
+CASE-0534,2026-10-21,Sur,0.777,Alta,Revisión humana prioritaria
+CASE-0605,2026-12-11,Este,0.777,Alta,Revisión humana prioritaria
+CASE-0500,2026-10-14,Sur,0.775,Alta,Revisión humana prioritaria
+CASE-0537,2026-10-24,Norte,0.775,Alta,Revisión humana prioritaria
+CASE-0520,2026-10-07,Sur,0.773,Alta,Revisión humana prioritaria
+CASE-0637,2026-12-16,Oeste,0.764,Alta,Revisión humana prioritaria
+CASE-0625,2026-12-04,Sur,0.763,Alta,Revisión humana prioritaria
+CASE-0587,2026-11-20,Oeste,0.762,Alta,Revisión humana prioritaria
+CASE-0626,2026-12-05,Sur,0.747,Alta,Revisión humana prioritaria
+CASE-0639,2026-12-18,Sur,0.744,Alta,Revisión humana prioritaria
+CASE-0602,2026-12-08,Norte,0.733,Alta,Revisión humana prioritaria
+CASE-0507,2026-10-21,Oeste,0.731,Alta,Revisión humana prioritaria
+CASE-0558,2026-11-18,Oeste,0.697,Media,Revisión humana en la cola regular
+CASE-0524,2026-10-11,Este,0.69,Media,Revisión humana en la cola regular
+CASE-0591,2026-11-24,Este,0.678,Media,Revisión humana en la cola regular
+CASE-0580,2026-11-13,Oeste,0.645,Media,Revisión humana en la cola regular
+CASE-0484,2026-09-25,Norte,0.639,Media,Revisión humana en la cola regular
+CASE-0542,2026-11-02,Oeste,0.633,Media,Revisión humana en la cola regular
+CASE-0614,2026-12-20,Este,0.632,Media,Revisión humana en la cola regular
+CASE-0610,2026-12-16,Sur,0.622,Media,Revisión humana en la cola regular
+CASE-0578,2026-11-11,Sur,0.622,Media,Revisión humana en la cola regular
+CASE-0630,2026-12-09,Este,0.588,Media,Revisión humana en la cola regular
+CASE-0556,2026-11-16,Oeste,0.56,Media,Revisión humana en la cola regular
+CASE-0535,2026-10-22,Sur,0.549,Media,Revisión humana en la cola regular
+CASE-0510,2026-10-24,Sur,0.544,Media,Revisión humana en la cola regular
+CASE-0621,2026-12-27,Sur,0.538,Media,Revisión humana en la cola regular
+CASE-0554,2026-11-14,Este,0.533,Media,Revisión humana en la cola regular
+CASE-0566,2026-11-26,Oeste,0.527,Media,Revisión humana en la cola regular
+CASE-0549,2026-11-09,Sur,0.511,Media,Revisión humana en la cola regular
+CASE-0498,2026-10-12,Sur,0.505,Media,Revisión humana en la cola regular
+CASE-0495,2026-10-09,Este,0.504,Media,Revisión humana en la cola regular
+CASE-0552,2026-11-12,Este,0.503,Media,Revisión humana en la cola regular
+CASE-0561,2026-11-21,Sur,0.486,Baja,Cola cronológica (sin acción automática)
+CASE-0503,2026-10-17,Este,0.486,Baja,Cola cronológica (sin acción automática)
+CASE-0487,2026-10-01,Norte,0.485,Baja,Cola cronológica (sin acción automática)
+CASE-0485,2026-09-26,Oeste,0.48,Baja,Cola cronológica (sin acción automática)
+CASE-0595,2026-12-01,Norte,0.478,Baja,Cola cronológica (sin acción automática)
+CASE-0488,2026-10-02,Sur,0.462,Baja,Cola cronológica (sin acción automática)
+CASE-0565,2026-11-25,Oeste,0.457,Baja,Cola cronológica (sin acción automática)
+CASE-0579,2026-11-12,Este,0.456,Baja,Cola cronológica (sin acción automática)
+CASE-0570,2026-11-03,Este,0.455,Baja,Cola cronológica (sin acción automática)
+CASE-0569,2026-11-02,Sur,0.455,Baja,Cola cronológica (sin acción automática)
+CASE-0504,2026-10-18,Norte,0.453,Baja,Cola cronológica (sin acción automática)
+CASE-0540,2026-10-27,Este,0.448,Baja,Cola cronológica (sin acción automática)
+CASE-0627,2026-12-06,Oeste,0.443,Baja,Cola cronológica (sin acción automática)
+CASE-0499,2026-10-13,Sur,0.421,Baja,Cola cronológica (sin acción automática)
+CASE-0543,2026-11-03,Sur,0.401,Baja,Cola cronológica (sin acción automática)
+CASE-0528,2026-10-15,Norte,0.398,Baja,Cola cronológica (sin acción automática)
+CASE-0489,2026-10-03,Sur,0.396,Baja,Cola cronológica (sin acción automática)
+CASE-0624,2026-12-03,Norte,0.396,Baja,Cola cronológica (sin acción automática)
+CASE-0590,2026-11-23,Norte,0.391,Baja,Cola cronológica (sin acción automática)
+CASE-0560,2026-11-20,Sur,0.385,Baja,Cola cronológica (sin acción automática)
+CASE-0618,2026-12-24,Sur,0.38,Baja,Cola cronológica (sin acción automática)
+CASE-0555,2026-11-15,Oeste,0.379,Baja,Cola cronológica (sin acción automática)
+CASE-0584,2026-11-17,Este,0.378,Baja,Cola cronológica (sin acción automática)
+CASE-0592,2026-11-25,Sur,0.367,Baja,Cola cronológica (sin acción automática)
+CASE-0517,2026-10-04,Este,0.363,Baja,Cola cronológica (sin acción automática)
+CASE-0559,2026-11-19,Norte,0.362,Baja,Cola cronológica (sin acción automática)
+CASE-0612,2026-12-18,Sur,0.361,Baja,Cola cronológica (sin acción automática)
+CASE-0572,2026-11-05,Oeste,0.36,Baja,Cola cronológica (sin acción automática)
+CASE-0545,2026-11-05,Oeste,0.35,Baja,Cola cronológica (sin acción automática)
+CASE-0458,2026-09-26,Norte,0.345,Baja,Cola cronológica (sin acción automática)
+CASE-0515,2026-10-02,Este,0.343,Baja,Cola cronológica (sin acción automática)
+CASE-0522,2026-10-09,Sur,0.336,Baja,Cola cronológica (sin acción automática)
+CASE-0530,2026-10-17,Este,0.334,Baja,Cola cronológica (sin acción automática)
+CASE-0577,2026-11-10,Este,0.326,Baja,Cola cronológica (sin acción automática)
+CASE-0491,2026-10-05,Oeste,0.323,Baja,Cola cronológica (sin acción automática)
+CASE-0620,2026-12-26,Este,0.321,Baja,Cola cronológica (sin acción automática)
+CASE-0526,2026-10-13,Sur,0.319,Baja,Cola cronológica (sin acción automática)
+CASE-0525,2026-10-12,Norte,0.311,Baja,Cola cronológica (sin acción automática)
+CASE-0527,2026-10-14,Oeste,0.309,Baja,Cola cronológica (sin acción automática)
+CASE-0601,2026-12-07,Norte,0.297,Baja,Cola cronológica (sin acción automática)
+CASE-0633,2026-12-12,Sur,0.284,Baja,Cola cronológica (sin acción automática)
+CASE-0506,2026-10-20,Oeste,0.269,Baja,Cola cronológica (sin acción automática)
+CASE-0576,2026-11-09,Norte,0.257,Baja,Cola cronológica (sin acción automática)
+CASE-0557,2026-11-17,Este,0.227,Baja,Cola cronológica (sin acción automática)
+CASE-0514,2026-10-01,Sur,0.218,Baja,Cola cronológica (sin acción automática)
+CASE-0613,2026-12-19,Sur,0.203,Baja,Cola cronológica (sin acción automática)
+CASE-0629,2026-12-08,Este,0.197,Baja,Cola cronológica (sin acción automática)
+CASE-0492,2026-10-06,Sur,0.191,Baja,Cola cronológica (sin acción automática)
+CASE-0509,2026-10-23,Este,0.189,Baja,Cola cronológica (sin acción automática)
+CASE-0490,2026-10-04,Norte,0.184,Baja,Cola cronológica (sin acción automática)
+CASE-0563,2026-11-23,Oeste,0.178,Baja,Cola cronológica (sin acción automática)
+CASE-0586,2026-11-19,Oeste,0.17,Baja,Cola cronológica (sin acción automática)
+CASE-0508,2026-10-22,Oeste,0.17,Baja,Cola cronológica (sin acción automática)
+CASE-0588,2026-11-21,Este,0.163,Baja,Cola cronológica (sin acción automática)
+CASE-0494,2026-10-08,Oeste,0.162,Baja,Cola cronológica (sin acción automática)
+CASE-0512,2026-10-26,Sur,0.152,Baja,Cola cronológica (sin acción automática)
+CASE-0593,2026-11-26,Oeste,0.139,Baja,Cola cronológica (sin acción automática)
+CASE-0640,2026-12-19,Oeste,0.133,Baja,Cola cronológica (sin acción automática)
+CASE-0521,2026-10-08,Norte,0.131,Baja,Cola cronológica (sin acción automática)
+CASE-0608,2026-12-14,Este,0.13,Baja,Cola cronológica (sin acción automática)
+CASE-0529,2026-10-16,Sur,0.117,Baja,Cola cronológica (sin acción automática)
+CASE-0519,2026-10-06,Norte,0.112,Baja,Cola cronológica (sin acción automática)
+CASE-0493,2026-10-07,Este,0.106,Baja,Cola cronológica (sin acción automática)
+CASE-0550,2026-11-10,Norte,0.099,Baja,Cola cronológica (sin acción automática)
+CASE-0606,2026-12-12,Norte,0.09,Baja,Cola cronológica (sin acción automática)
+CASE-0632,2026-12-11,Oeste,0.089,Baja,Cola cronológica (sin acción automática)
+CASE-0638,2026-12-17,Sur,0.08,Baja,Cola cronológica (sin acción automática)
+CASE-0628,2026-12-07,Norte,0.069,Baja,Cola cronológica (sin acción automática)
+CASE-0511,2026-10-25,Norte,0.052,Baja,Cola cronológica (sin acción automática)
+CASE-0585,2026-11-18,Oeste,0.046,Baja,Cola cronológica (sin acción automática)
+CASE-0536,2026-10-23,Este,0.045,Baja,Cola cronológica (sin acción automática)
+CASE-0567,2026-11-27,Este,0.039,Baja,Cola cronológica (sin acción automática)
+CASE-0634,2026-12-13,Oeste,0.03,Baja,Cola cronológica (sin acción automática)
+CASE-0459,2026-09-27,Este,0.024,Baja,Cola cronológica (sin acción automática)
+CASE-0600,2026-12-06,Norte,0.022,Baja,Cola cronológica (sin acción automática)
+CASE-0518,2026-10-05,Sur,0.016,Baja,Cola cronológica (sin acción automática)

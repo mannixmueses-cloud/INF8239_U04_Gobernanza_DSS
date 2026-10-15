@@ -7,10 +7,10 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
-def build_model(kind="logistic"):
+def build_model(kind="logistic", exclude=()):
     prep = ColumnTransformer([
-        ("cat", OneHotEncoder(handle_unknown="ignore"), ["zone","age_band"]),
-        ("num", StandardScaler(), ["previous_incidents","infrastructure_score","exposure"]),
+        ("cat", OneHotEncoder(handle_unknown="ignore"), [c for c in ["zone","age_band"] if c not in exclude]),
+        ("num", StandardScaler(), [c for c in ["previous_incidents","infrastructure_score","exposure"] if c not in exclude]),
     ])
     estimator = LogisticRegression(max_iter=1200, class_weight="balanced", random_state=42) if kind == "logistic" else DecisionTreeClassifier(max_depth=5, class_weight="balanced", random_state=42)
     return make_pipeline(prep, estimator)

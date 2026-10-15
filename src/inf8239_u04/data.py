@@ -20,5 +20,7 @@ def temporal_split(df, test_fraction=.25):
     cut = int(len(df) * (1-test_fraction))
     return df.iloc[:cut].copy(), df.iloc[cut:].copy()
 
-def features(df):
-    return df[["zone","age_band","previous_incidents","infrastructure_score","exposure"]]
+FEATURES = ["zone","age_band","previous_incidents","infrastructure_score","exposure"]
+
+def features(df, exclude=()):
+    return df[[c for c in FEATURES if c not in exclude]]

@@ -14,7 +14,7 @@ Proyecto base acumulativo para LAB11–13. El estudiante completa archivos peque
 | U04.LAB11 | Evaluación de impacto ético | ✅ Completo, decisión **REVIEW** |
 | U04.LAB12 | Auditoría de equidad con Fairlearn | ✅ Completo, decisión **REVIEW** |
 | **Ejercicio 07** | Evaluación de impacto y auditoría de equidad (integra LAB11 y LAB12) | ✅ PDF entregado en el aula virtual, decisión **MODIFICAR y LIMITAR** |
-| U04.LAB13 | Gobernanza y DSS responsable con Streamlit | ⏳ Pendiente |
+| U04.LAB13 | Gobernanza y DSS responsable con Streamlit | ✅ Completo, decisión gobernada **REVIEW** (falla `min_group_recall`) |
 
 **Ejercicio 07:** el PDF de síntesis se entrega en el aula virtual y **no se versiona** en este repositorio (`*.pdf` está en `.gitignore`). Su fuente editable está en [`docs/ejercicio07/INF8239_U04_E07_Mueses.html`](docs/ejercicio07/INF8239_U04_E07_Mueses.html). Para regenerar el PDF, abra el HTML en el navegador e imprímalo como PDF (tamaño Carta, sin encabezados).
 
@@ -28,7 +28,7 @@ uv run pytest -q
 uv run python scripts/check_environment.py
 ```
 
-Resultado esperado: `10 passed` y `{'python_project': 'ok', 'dataset_status': 'valid', 'rows': 640, 'columns': 9}`.
+Resultado esperado: `19 passed` y `{'python_project': 'ok', 'dataset_status': 'valid', 'rows': 640, 'columns': 9}`.
 
 > Si se renombra o mueve la carpeta, el entorno `.venv` conserva la ruta anterior. Se repara con `uv sync --frozen --reinstall`.
 
@@ -40,6 +40,7 @@ uv run python scripts/lab12_audit.py --model tree
 uv run python scripts/lab12_compare.py
 uv run python scripts/validate_lab12_decision.py
 uv run python scripts/lab13_governance.py
+uv run python scripts/simulate_incident.py
 uv run streamlit run app.py
 ```
 
@@ -118,6 +119,57 @@ Se descarta el árbol y la candidata preferida es la regresión logística sin `
 | `AUDIT_REPORT.md` | Informe completo con interpretación y decisión |
 
 `scripts/lab12_compare.py` se agregó al proyecto base para cubrir la línea base y los intervalos de confianza que pide el checklist.
+
+## LAB13 · Gobernanza y DSS responsable con Streamlit
+
+El DSS prioriza la revisión humana y presenta evidencia. **No** declara emergencias, culpabilidad, elegibilidad ni intervención automática.
+
+### Arquitectura
+
+| Capa | Responsabilidad | Evidencia |
+|---|---|---|
+| Data | Contrato, procedencia, exclusiones y corte temporal | `docs/DATASET_CARD.md`, `validate_schema`, `tests/test_data.py`, `tests/test_privacy.py` |
+| Model | Regresión logística **sin `age_band`** (decisión del LAB12), reproducible con semilla | `configs/governance.yml → model`, `src/inf8239_u04/model.py`, versión en `decision_record.json` |
+| Fairness | Métricas por grupo e interseccionales con mínimo de soporte | `reports/lab12/AUDIT_REPORT.md`, `reports/lab13/fairness_by_group.csv` |
+| Green AI | Calidad, tiempo y tamaño de las alternativas | `reports/lab12/model_comparison.csv` (también se muestra en la app) |
+| DSS | Probabilidad, prioridad (Alta/Media/Baja), política y acción recomendada por caso | `reports/lab13/prioritized_cases.csv`, `pipeline.prioritize` |
+| Governance | Puertas, responsables, monitoreo, apelación e incidente | `student_inputs/raci.csv`, `docs/MODEL_CARD.md`, `docs/RUNBOOK.md`, `reports/lab13/INCIDENT_POSTMORTEM.md` |
+
+### Puertas de calidad (`configs/governance.yml`)
+
+| Tipo | Puerta | Resultado | Si falla |
+|---|---|---|---|
+| Desempeño | `min_recall` ≥ 0.68 | ✅ 0.717 | REVIEW |
+| Equidad | `min_group_recall` ≥ 0.68 *(nueva, LAB12)* | ❌ G1 = 0.653 | REVIEW |
+| Equidad | `max_recall_gap` / `max_fpr_gap` ≤ 0.16 | ✅ 0.138 / 0.144 | REVIEW |
+| Privacidad | Sin identificadores directos ni atributos sensibles en el modelo *(nueva)* | ✅ | **STOP** |
+| Costo | Latencia ≤ 500 ms por caso y modelo ≤ 1024 KB | ✅ ~0.05 ms / 3.3 KB | REVIEW |
+
+**Decisión gobernada: REVIEW.** El Product Owner analiza la evidencia con el Data Scientist y registra su decisión, y el DSS no se usa en operación hasta entonces. La recomendación trazable (versión, política, evidencia y acción humana) está en `reports/lab13/decision_record.json`.
+
+### Simulacro de incidente
+`scripts/simulate_incident.py` toma la señal real de las puertas fallidas. El postmortem `reports/lab13/INCIDENT_POSTMORTEM.md` cubre detección, contención, preservación de evidencia (`reports/lab13/incidents/SIM-001/` con `SHA256SUMS.txt`), comunicación, rollback a la cola cronológica y acciones correctivas con responsables y fechas.
+
+### Pruebas
+Hay 19 pruebas. `tests/test_dss.py` cubre las pruebas post instalación del manual:
+- **Inicio:** la app abre y muestra la acción humana.
+- **Contrato:** una columna faltante se rechaza.
+- **Puerta:** una brecha o un grupo fuera de tolerancia produce REVIEW, y un atributo sensible en el modelo produce STOP.
+- **Trazabilidad:** la recomendación incluye versión, política, evidencia y acción humana.
+- **RACI:** cada actividad tiene un solo Accountable.
+
+### Publicación opcional (Streamlit Community Cloud)
+El repositorio no contiene datos personales ni secretos. `requirements.txt` se generó con `uv export --format requirements-txt --no-dev -o requirements.txt`. Para publicar:
+1. Inicie sesión en https://share.streamlit.io con su cuenta de GitHub.
+2. Elija **Create app**, el repositorio `mannixmueses-cloud/INF8239_U04_Gobernanza_DSS`, la rama `main` y el archivo `app.py`.
+3. En *Advanced settings*, seleccione Python 3.12.
+4. No configure secretos: la app no los necesita.
+
+### Cambios al proyecto base en el LAB13
+- `data.py`, `model.py` y `pipeline.py` aceptan variables excluidas. Por defecto se mantiene el comportamiento original, así que el LAB12 da los mismos resultados.
+- `governance.py` añade las puertas `min_group_recall` y `privacy` (STOP), comprueba que haya un solo Accountable por actividad y genera el registro trazable `decision_record`.
+- `pipeline.prioritize` genera la cola por caso, y `app.py` muestra la recomendación gobernada, la trazabilidad, las puertas, Green AI y la cola priorizada.
+- `simulate_incident.py` usa la señal real y no sobrescribe el postmortem.
 
 ## Estructura
 

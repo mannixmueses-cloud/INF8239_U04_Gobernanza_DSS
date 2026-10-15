@@ -1,13 +1,19 @@
 system_name: Territorial Review DSS - Synthetic
 purpose: Prioritize synthetic cases for human review
+accountable: Institutional Owner
 prohibited_uses:
   - automatic intervention
   - eligibility decision
   - emergency declaration
 sensitive_features: [protected_group, age_band]
 direct_identifiers: [name, document_number, email, phone]
+# LAB12: se adopta la regresión logística sin age_band (control del riesgo R02)
+model:
+  kind: logistic
+  exclude_features: [age_band]
 gates:
   min_recall: 0.68
+  min_group_recall: 0.68  # LAB12: ningún grupo puede quedar por debajo del recall mínimo
   max_recall_gap: 0.16
   max_fpr_gap: 0.16
   max_latency_ms: 500

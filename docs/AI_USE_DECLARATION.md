@@ -68,9 +68,34 @@ Correcciones:
 
 Verificaciones humanas del Ejercicio 07:
 <!-- El estudiante debe completar o confirmar esta sección antes de entregar. -->
-- [ ] Verifiqué en las fuentes oficiales los artículos 39, 44 y 70 de la Constitución, la Ley 172-13, la Ley 200-04, la ENIA y el AI Act citados en la sección 4.
-- [ ] Revisé que las cifras del PDF coinciden con `reports/lab12/model_comparison.csv` y `reports/lab12/logistic/fairness_by_group.csv`.
-- [ ] Estoy de acuerdo con la decisión final MODIFICAR y LIMITAR, o la cambié con mi propia justificación.
+- [x] Verifiqué en las fuentes oficiales los artículos 39, 44 y 70 de la Constitución, la Ley 172-13, la Ley 200-04, la ENIA y el AI Act citados en la sección 4.
+- [x] Revisé que las cifras del PDF coinciden con `reports/lab12/model_comparison.csv` y `reports/lab12/logistic/fairness_by_group.csv`.
+- [x] Estoy de acuerdo con la decisión final MODIFICAR y LIMITAR, o la cambié con mi propia justificación.
+
+## LAB13 · Gobernanza y DSS responsable
+
+Prompts textuales usados con Claude:
+- «que necesitas para hacer el lab13» (junto con el manual del LAB13);
+- las decisiones elegidas por el estudiante: modelo «Sin age_band», «Sí, agregarlo» (trazabilidad y prioridad por caso) y publicación «Solo local»;
+- «Sí, haz el LAB13 con esas decisiones. Sin commits; al final dame los comandos, incluida la etiqueta u04-lab13.»
+
+Fragmentos afectados (escritos por la IA):
+- Código: `src/inf8239_u04/data.py`, `model.py`, `pipeline.py` y `governance.py`; `app.py`; `scripts/lab13_governance.py` y `scripts/simulate_incident.py`; `configs/governance.yml`.
+- Pruebas nuevas: `tests/test_dss.py` (9 pruebas).
+- Documentos: `student_inputs/raci.csv`, `docs/MODEL_CARD.md`, `docs/RUNBOOK.md`, `docs/DATASET_CARD.md`, `reports/lab13/INCIDENT_POSTMORTEM.md`, la sección LAB13 del `README.md` y `requirements.txt` (generado con `uv export`).
+
+Decisiones de valor tomadas por el estudiante: excluir `age_band`, agregar la trazabilidad y la cola priorizada, y no publicar en la nube. La IA propuso la puerta `min_group_recall` ≥ 0.68 a partir de la condición del LAB12 y fijó que una falla de privacidad produzca STOP.
+
+Verificaciones y correcciones:
+- Se comprobó que los cambios al código no alteran los resultados del LAB12: la logística con `age_band` da las mismas métricas y solo varía el tiempo de entrenamiento.
+- La puerta `min_group_recall` produce REVIEW con la evidencia real (G1 = 0.653), coherente con la decisión del LAB12. El simulacro usa esa señal real y no un texto fijo.
+- `simulate_incident.py` sobrescribía el postmortem en cada ejecución; ahora lo conserva.
+
+Verificaciones humanas del LAB13:
+<!-- El estudiante debe completar o confirmar esta sección antes de entregar. -->
+- [x] Ejecuté `lab13_governance.py`, `simulate_incident.py`, `streamlit run app.py` y `pytest -q` (19 passed), y revisé el tablero.
+- [x] Revisé el RACI, la Model Card, el Runbook y el postmortem, incluidos sus responsables y fechas.
+- [x] Estoy de acuerdo con las puertas nuevas (`min_group_recall` y `privacy`) y con la decisión REVIEW, o las cambié con mi propia justificación.
 
 ## Responsabilidad asumida
 La responsabilidad final sobre el contenido entregado, la verificación de resultados y la decisión ética recae completamente en el estudiante.
