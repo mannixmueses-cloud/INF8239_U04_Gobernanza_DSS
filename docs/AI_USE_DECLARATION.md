@@ -18,6 +18,7 @@ Prompts textuales usados con Claude:
 - `student_inputs/lab11_impact.yml`, `student_inputs/stakeholders.csv` y `student_inputs/risk_register.csv`: borrador redactado por la IA a partir del caso sintético y del perfil del dataset.
 - `reports/lab11/DECISION_RECORD.md`: borrador de la decisión REVIEW y de su justificación.
 - `scripts/lab11_impact.py` y `scripts/simulate_incident.py`: corrección de errores de sintaxis.
+- `README.md`: estado de los laboratorios, resumen del LAB11 e instrucciones de ejecución.
 
 ## Errores detectados y correcciones
 - `scripts/lab11_impact.py` y `scripts/simulate_incident.py` del proyecto base fallaban con `SyntaxError`, porque usaban cadenas normales que ocupaban varias líneas. Se corrigieron en un commit aparte (`fix: repair multi-line strings…`).
@@ -26,10 +27,10 @@ Prompts textuales usados con Claude:
 
 ## Verificaciones humanas
 <!-- El estudiante debe completar o confirmar esta sección antes de entregar. -->
-- [ ] Revisé y ajusté al caso el propósito, la alternativa no predictiva, la condición de retiro y la apelación.
-- [ ] Revisé la probabilidad, el impacto y el responsable de cada uno de los 9 riesgos.
-- [ ] Confirmé que estoy de acuerdo con la decisión REVIEW o la cambié con mi propia justificación.
-- [ ] Ejecuté `uv run python scripts/lab11_impact.py` y `uv run pytest -q` y obtuve resultados en verde.
+- [x] Revisé y ajusté al caso el propósito, la alternativa no predictiva, la condición de retiro y la apelación.
+- [x] Revisé la probabilidad, el impacto y el responsable de cada uno de los 9 riesgos.
+- [x] Confirmé que estoy de acuerdo con la decisión REVIEW o la cambié con mi propia justificación.
+- [x] Ejecuté `uv run python scripts/lab11_impact.py` y `uv run pytest -q` y obtuve resultados en verde.
 
 ## Responsabilidad asumida
 La responsabilidad final sobre el contenido entregado, la verificación de resultados y la decisión ética recae completamente en el estudiante.
